@@ -1,5 +1,6 @@
 package za.ac.cput.Controller;
 
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +9,6 @@ import za.ac.cput.Service.Impl.RestaurantService;
 import za.ac.cput.Service.Impl.RestaurantServiceImpl;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 
 /**
  * Matthew Jones
@@ -16,18 +16,19 @@ import java.util.logging.Logger;
  * The Restaurant Controller
  */
 
-//@RestController
+@RestController
 //@RequestMapping("/restaurant")
 public class RestaurantController {
-    private RestaurantService service;
-    protected final static Logger log = (Logger) LoggerFactory.getLogger(RestaurantController.class);
-
     @Autowired
-    public RestaurantController(RestaurantServiceImpl restaurantService) {
-        this.service = restaurantService;
-    }
+    private RestaurantServiceImpl service;
+    protected final static Logger log = LoggerFactory.getLogger(RestaurantController.class);
 
-    @PostMapping
+//    @Autowired
+//    public RestaurantController(RestaurantServiceImpl restaurantService) {
+//        this.service = restaurantService;
+//    }
+
+    @PostMapping("/restaurant")
     public Restaurant saveRestaurant(@RequestBody Restaurant restaurant){
         log.info("The request has started");
         Restaurant savedRestaurant = service.save(restaurant);
@@ -35,13 +36,13 @@ public class RestaurantController {
         return savedRestaurant;
     }
 
-    @GetMapping
-    public Optional<Restaurant> getRestaurantByID(Restaurant restaurant){
+    @GetMapping("/restaurant/{restaurantID}")
+    public Optional<Restaurant> getRestaurantByID(@PathVariable String restaurantID){
         log.info("Service started reading restaurant requested");
-        return service.read(restaurant);
+        return service.read(restaurantID);
     }
 
-    @PutMapping
+    @PutMapping("/restaurant")
     public Restaurant updateRestaurant(Restaurant restaurant){
         log.info("Service started updating the restaurant request");
         Restaurant updatedRestaurant = service.update(restaurant);
@@ -49,14 +50,14 @@ public class RestaurantController {
         return updatedRestaurant;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/restaurant")
     public void deleteEmployee(Restaurant restaurant){
         log.info("Service has started deletion of restaurant");
         service.delete(restaurant);
         log.info("Restaurant "+restaurant.getRestaurantName() +", has been deleted.");
     }
 
-    @GetMapping
+    @GetMapping("/restaurant")
     public List<Restaurant> getAllRestaurant(){
         return service.readAll();
     }

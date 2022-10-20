@@ -13,8 +13,8 @@ import za.ac.cput.Factory.AdminFactory;
 
 public class AdminServiceImplTest {
     private AdminServiceImpl service;
-    private Admin admin = new AdminFactory().buildAdmin("01", "Accountant", "Jax", "Blade");
-    private Admin updatedAdmin = new AdminFactory().buildAdmin("01", "Accountant", "Jax", "Blades");
+    private Admin admin = new AdminFactory().buildAdmin(01L, "Accountant", "Jax", "Blade");
+    private Admin updatedAdmin = new AdminFactory().buildAdmin(01L, "Accountant", "Jax", "Blades");
 
     //side note - I used the testService method, trying to avoid the null pointer error for the service object --->
     @Test
@@ -34,7 +34,7 @@ public class AdminServiceImplTest {
     @Test
     public void testSave(){
         try {
-            Assertions.assertTrue(service.save(new AdminFactory().buildAdmin("01", "Accountant", "Jax", "Blade")) != null);
+            Assertions.assertTrue(service.save(new AdminFactory().buildAdmin(01L, "Accountant", "Jax", "Blade")) != null);
         }catch(Exception e){
             e.getMessage();
         }
@@ -43,7 +43,7 @@ public class AdminServiceImplTest {
     @Test
     public void testRead(){
         try {
-            Assertions.assertNotNull(service.read(admin));
+            Assertions.assertNotNull(service.read(admin.getAdminID()));
         } catch(NullPointerException npe) {
             npe.getStackTrace();
             npe.getMessage();
@@ -68,7 +68,7 @@ public class AdminServiceImplTest {
 
     @Test void testUpdate(){
         try {
-            Assertions.assertFalse(service.update(updatedAdmin).equals(service.read(admin)));
+            Assertions.assertFalse(service.update(updatedAdmin).equals(service.read(admin.getAdminID())));
         } catch (Exception e) {
             e.printStackTrace();
         }

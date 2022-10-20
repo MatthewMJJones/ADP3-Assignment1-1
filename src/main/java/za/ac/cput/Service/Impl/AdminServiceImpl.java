@@ -31,10 +31,15 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Optional<Admin> read(Admin admin) {
-        if(!admin.equals(null)) {
+    public Optional<Admin> read(String ID) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Admin> read(Long adminID) {
+        if(adminID != 0) {
             System.out.println("Admin found: ");
-            Optional<Admin> readAdmin = repo.findById(admin.getAdminID());
+            Optional<Admin> readAdmin = repo.findById(adminID);
             return readAdmin;
         }else{
             System.out.println("Error: Admin not found.");
@@ -45,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<Admin> readAll() {
         if(repo.count() != 0) {
-            List<Admin> aList = repo.findAll();
+            List<Admin> aList = (List<Admin>) repo.findAll();
             System.out.println("Admin list is found");
             return aList;
         }else{
@@ -57,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin update(Admin admin) {
         if(Collections.emptyList() != repo) {
-            List<Admin> aList = repo.findAll();
+            List<Admin> aList = (List<Admin>) repo.findAll();
             Admin adminUpdate = aList.stream().findAny().get();
             if(adminUpdate.getAdminID() == admin.getAdminID()){
                 adminUpdate.setAdminFullName(admin.getAdminFirstName(), admin.getAdminSurname());

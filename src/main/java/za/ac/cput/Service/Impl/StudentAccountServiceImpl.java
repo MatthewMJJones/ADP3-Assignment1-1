@@ -40,11 +40,16 @@ public StudentAccountServiceImpl(StudentAccountRepository studentAccountReposito
     }
 
     @Override
-    public Optional<StudentAccount> read(StudentAccount studentAccount) {
+    public Optional<StudentAccount> read(Long studAccountNumber) {
         return this.studentAccountList
                 .stream()
-                .filter(a -> a.getStudentID().equals(studentAccount))
+                .filter(a -> a.getStudAccountNumber().equals(studAccountNumber))
                 .findFirst();
+    }
+
+    @Override
+    public Optional<StudentAccount> read(String ID) {
+        return Optional.empty();
     }
 
     @Override
@@ -64,9 +69,9 @@ public StudentAccountServiceImpl(StudentAccountRepository studentAccountReposito
         }
         return studentAccount;
     }
-//
-//    @Override
-//    public List<StudentAccount> readAll() {
-//        return this.studentAccountRepository.readAll();
-//    }
+
+    @Override
+    public List<StudentAccount> readAll() {
+        return (List<StudentAccount>) this.studentAccountRepository.findAll();
+    }
 }
